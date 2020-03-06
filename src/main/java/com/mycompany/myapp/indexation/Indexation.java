@@ -18,7 +18,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 
 public class Indexation {
-    public static final String JAVAPACKAGE = "src/main/java/com/mycompany/myapp/";
+    public static final String JAVAPACKAGE = "src\\main\\java\\com\\mycompany\\myapp\\";
     //<--! JAVAPACKAGE -->
 
     public static String parseMetadata(String filename) {
@@ -44,14 +44,14 @@ public class Indexation {
         ITesseract instance = new Tesseract();
         File tessDataFolder = LoadLibs.extractTessResources("tessdata");
         System.out.println(tessDataFolder.getAbsolutePath());
-        instance.setDatapath(JAVAPACKAGE + "/indexation/tessdata"); // sets tessData path
+        instance.setDatapath(JAVAPACKAGE + "indexation"); // sets tessData path
         result = instance.doOCR(imageFile);
         return result;
     }
 
     public static String imageAI(String pathImg) throws Exception {
 
-        String script = JAVAPACKAGE + "/indexation/imageAI/imageAI.py ";
+        String script = JAVAPACKAGE + "indexation/imageAI/imageAI.py ";
         //<--! script
         String commandToExecute = "python3 " + script + pathImg;
         String res = "";
@@ -90,7 +90,7 @@ public class Indexation {
     public static String createImagefromByteArray(byte[] data) throws IOException {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         BufferedImage bImage2 = ImageIO.read(bis);
-        File f = new File(JAVAPACKAGE + "/indexation/tampon.png");
+        File f = new File(JAVAPACKAGE + "indexation//tampon.png");
         if(!ImageIO.write(bImage2, "PNG",f)){
             throw new RuntimeException("Unexpected error writing image");
         }

@@ -72,6 +72,34 @@ public class PhotoLite implements Serializable {
     @Pattern(regexp = "([a-fA-F0-9]{40})?")
     @Column(name = "thumbnailx_2_sha_1", length = 40)
     private String thumbnailx2Sha1;
+
+
+    /**
+     * Extracted EXIF from the photo (LAZY)
+     */
+//    @Lazy
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "exif")
+    private String exif;
+
+    /**
+     * Extracted text by the Tesseract OCR (LAZY)
+     */
+//    @Lazy
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "extracted_text")
+    private String extractedText;
+
+    /**
+     * Detected objects into the photo (ImageAI, Tensorflow ...) (LAZY)
+     */
+//    @Lazy
+    @Lob
+    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "detected_objects")
+    private String detectedObjects;
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -186,6 +214,44 @@ public class PhotoLite implements Serializable {
         this.thumbnailx2Sha1 = thumbnailx2Sha1;
     }
 
+    public String getExif() {
+        return exif;
+    }
+
+    public PhotoLite exif(String exif) {
+        this.exif = exif;
+        return this;
+    }
+
+    public void setExif(String exif) {
+        this.exif = exif;
+    }
+
+    public String getExtractedText() {
+        return extractedText;
+    }
+
+    public PhotoLite extractedText(String extractedText) {
+        this.extractedText = extractedText;
+        return this;
+    }
+
+    public void setExtractedText(String extractedText) {
+        this.extractedText = extractedText;
+    }
+
+    public String getDetectedObjects() {
+        return detectedObjects;
+    }
+
+    public PhotoLite detectedObjects(String detectedObjects) {
+        this.detectedObjects = detectedObjects;
+        return this;
+    }
+
+    public void setDetectedObjects(String detectedObjects) {
+        this.detectedObjects = detectedObjects;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -215,6 +281,9 @@ public class PhotoLite implements Serializable {
             ", thumbnailx1Sha1='" + getThumbnailx1Sha1() + "'" +
             ", thumbnailx2ContentType='" + getThumbnailx2ContentType() + "'" +
             ", thumbnailx2Sha1='" + getThumbnailx2Sha1() + "'" +
+            ", exif='" + getExif() + "'" +
+            ", extractedText='" + getExtractedText() + "'" +
+            ", detectedObjects='" + getDetectedObjects() + "'" +
             "}";
     }
 }

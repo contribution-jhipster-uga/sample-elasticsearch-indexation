@@ -1,6 +1,7 @@
 package com.mycompany.myapp.service.impl;
 //<--! package -->
 
+import com.drew.imaging.ImageProcessingException;
 import com.mycompany.myapp.domain.Photo;
 import com.mycompany.myapp.domain.PhotoLite;
 import com.mycompany.myapp.indexation.Indexation;
@@ -11,9 +12,11 @@ import com.mycompany.myapp.service.PhotoService;
 import com.mycompany.myapp.service.dto.PhotoDTO;
 import com.mycompany.myapp.service.mapper.PhotoLiteMapper;
 import com.mycompany.myapp.service.mapper.PhotoMapper;
+import com.mycompany.myapp.service.util.MetadataUtil;
 import com.mycompany.myapp.service.util.MimeTypes;
 import com.mycompany.myapp.service.util.SHAUtil;
 import com.mycompany.myapp.service.util.ThumbnailUtil;
+import net.sourceforge.tess4j.TesseractException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -125,7 +128,7 @@ public class PhotoServiceImpl implements PhotoService {
                     photoDTO.setThumbnailx2ContentType(mimeType);
 
                     String filename = Indexation.createImagefromByteArray(image);
-                    /*
+
                     // Extract Exif
                     try {
                         photoDTO.setExif(MetadataUtil.extract(image));
@@ -140,7 +143,7 @@ public class PhotoServiceImpl implements PhotoService {
                     } catch (TesseractException e) {
                         log.warn("Can not extract the image text", e);
                     }
-
+                    /*
                     // Extract Objects with ImageAI
                     try {
                         photoDTO.setDetectedObjects(Indexation.imageAI(filename));
@@ -202,8 +205,10 @@ public class PhotoServiceImpl implements PhotoService {
     @Transactional(readOnly = true)
     public Optional<PhotoDTO> findOne(Long id) {
         log.debug("Request to get Photo : {}", id);
-        return photoLiteRepository.findById(id)
+         Optional<PhotoDTO> p = photoLiteRepository.findById(id)
             .map(photoLiteMapper::toDto);
+         return p;
+
     }
 
     @Override
